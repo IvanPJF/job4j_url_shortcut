@@ -1,0 +1,25 @@
+language: java
+jdk:
+  - openjdk11
+
+services:
+  - postgresql
+
+before_install:
+  - psql -c 'create database url_shortcut;' -U postgres
+
+# после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo.
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+# Отправлять уведомление на почту, если сборка упала.
+notifications:
+  email:
+    recipients:
+      - teaching-light@yandex.ru
+    on_success: never # default: change
+    on_failure: always # default: always
+
+env:
+  global:
+    - CODECOV_TOKEN=""
